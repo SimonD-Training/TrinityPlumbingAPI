@@ -115,12 +115,21 @@ class controller {
 		const user = await userModel
 			.findByIdAndUpdate(uid, { active: true })
 			.catch((err) => {
-				JSONResponse.error(req, res, 500, 'Fatal Error! Server Down!', err)
+				res.status(500).render('verify', {
+					Title: 'Fatal Error! Server Down!',
+					Details: err.message,
+				})
 			})
 		if (user) {
-			JSONResponse.success(req, res, 200, 'User verified successfully')
+			res.status(200).render('verify', {
+				Title: 'User verified successfully',
+				Link: 'https://your.website/login',
+			})
 		} else {
-			JSONResponse.error(req, res, 404, 'No such user!')
+			res.status(200).render('verify', {
+				Title: 'No User Found!',
+				Details: `Trying copying your activation link directly if you attempted to type it`,
+			})
 		}
 	}
 

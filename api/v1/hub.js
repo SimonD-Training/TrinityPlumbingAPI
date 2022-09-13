@@ -13,6 +13,7 @@ router.all('', (req, res) => {
 	const descriptions = [
 		`API DOCS URL`,
 		`Route for managing logins, session resumptions, user profile updates and deleting profile.`,
+		`Activates a newly registered user.`,
 		`Registers a new user.`,
 		`Administrative management of users via IDs.`,
 	]
@@ -31,6 +32,7 @@ router
 	.get(userController.session)
 	.patch(userController.updateUser)
 	.delete(userController.destroyUser)
+router.route('/users/register/:id').get(userController.verifyUser)
 router.route('/users/register').post(userController.signUp)
 router
 	.route('/users/:id')
