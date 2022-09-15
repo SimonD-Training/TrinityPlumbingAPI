@@ -1,10 +1,10 @@
-const serviceModel = require('../../../lib/db/models/service.model')
+const workerModel = require('../../../lib/db/models/worker.model')
 const JSONResponse = require('../../../lib/json.helper')
 
 class controller {
 	//Read
 	static async get(req, res) {
-		const list = serviceModel.find().catch((err) => {
+		const list = await workerModel.find().catch((err) => {
 			JSONResponse.error(req, res, 500, 'Database Error', err)
 		})
 		if (list.length > 0)
@@ -15,13 +15,19 @@ class controller {
 				'Collected matching documents',
 				list
 			)
-		else JSONResponse.error(req, res, 404, 'Could not find any documents')
+		else
+			JSONResponse.error(
+				req,
+				res,
+				404,
+				'Could not find any matching documents'
+			)
 	}
 
 	//Create
 	static async add(req, res) {
 		let body = req.body
-		let newdoc = new serviceModel(body)
+		let newdoc = new workerModel(body)
 		let dupe = await newdoc.checkDupe()
 		if (dupe) {
 			JSONResponse.error(req, res, 409, 'Duplicate document')
@@ -58,7 +64,7 @@ class controller {
 	//Delete
 	static async destroy(req, res) {
 		let id = req.params.id
-		const olddoc = await serviceModel.findByIdAndDelete(id).catch((err) => {
+		const olddoc = await workerModel.findByIdAndDelete(id).catch((err) => {
 			JSONResponse.error(req, res, 500, 'Database Error', err)
 		})
 
@@ -69,14 +75,14 @@ class controller {
 		}
 	}
 
-	//Update
+	//Delete
 	static async update(req, res) {
 		let id = req.params.id
 		let body = req.body
-		const newdoc = await serviceModel
+		const newdoc = await workerModel
 			.findByIdAndUpdate(id, body)
 			.catch((err) => {
-				JSONResponse.error(req, res, 500, 'Database Error', err)
+				JSONResponse.error(req, res, 500, 'FDatabase Error', err)
 			})
 		if (newdoc) {
 			JSONResponse.success(

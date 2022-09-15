@@ -1,6 +1,5 @@
 const itemModel = require('../../../lib/db/models/item.model')
 const JSONResponse = require('../../../lib/json.helper')
-const JWTHelper = require('../../../lib/jwt.helper')
 
 class controller {
 	//Read
@@ -76,28 +75,25 @@ class controller {
 		}
 	}
 
-	//Delete
+	//Update
 	static async update(req, res) {
 		let id = req.params.id
-		const newdoc = await itemModel.findByIdAndDelete(id).catch((err) => {
-			JSONResponse.error(
-				req,
-				res,
-				500,
-				'Fatal error handling item method model',
-				err
-			)
-		})
+		let body = req.body
+		const newdoc = await itemModel
+			.findByIdAndUpdate(id, body)
+			.catch((err) => {
+				JSONResponse.error(req, res, 500, 'Database Error', err)
+			})
 		if (newdoc) {
 			JSONResponse.success(
 				req,
 				res,
 				200,
-				'Successfully removed item method',
+				'Successfully updated document',
 				newdoc
 			)
 		} else {
-			JSONResponse.error(req, res, 404, 'Could not find item method')
+			JSONResponse.error(req, res, 404, 'Could not find document')
 		}
 	}
 }

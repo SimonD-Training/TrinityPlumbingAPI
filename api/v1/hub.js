@@ -4,9 +4,9 @@ const itemsController = require('./controllers/items.controller')
 const servicesController = require('./controllers/services.controller')
 const adminsController = require('./controllers/admins.controller')
 const contactsController = require('./controllers/contacts.controller')
+const workersController = require('./controllers/workers.controller')
 const typeCheck = require('./middleware/typeCheck.middleware')
 const categoryModel = require('../../lib/db/models/category.model')
-const workerModel = require('../../lib/db/models/worker.model')
 
 router.all('', (req, res) => {
 	let concat = []
@@ -86,6 +86,17 @@ router
 	.delete(servicesController.destroy)
 
 router
+	.route('/workers')
+	.all(typeCheck(['admin']))
+	.get(workersController.get)
+	.post(workersController.add)
+router
+	.route('/workers/:id')
+	.all(typeCheck(['admin']))
+	.patch(workersController.update)
+	.delete(workersController.destroy)
+
+router
 	.route('/contacts')
 	.post(contactsController.add)
 	.all(typeCheck(['admin']))
@@ -98,16 +109,6 @@ router
 
 router.route('/categories').get(async (req, res) => {
 	const list = await categoryModel.find().catch((err) => {
-		JSONResponse.error(req, res, 500, 'Database Error', err)
-	})
-	if (list.length > 0)
-		JSONResponse.success(req, res, 200, 'Collected matching documents', list)
-	else
-		JSONResponse.error(req, res, 404, 'Could not find any matching documents')
-})
-
-router.route('/workers').get(typeCheck(['admin']), async (req, res) => {
-	const list = await workerModel.find().catch((err) => {
 		JSONResponse.error(req, res, 500, 'Database Error', err)
 	})
 	if (list.length > 0)
