@@ -1,6 +1,12 @@
 const router = require('express').Router()
-const userController = require('./controllers/user.controller')
+const usersController = require('./controllers/users.controller')
+const itemsController = require('./controllers/items.controller')
+const servicesController = require('./controllers/services.controller')
+const adminsController = require('./controllers/admins.controller')
+const contactsController = require('./controllers/contacts.controller')
 const typeCheck = require('./middleware/typeCheck.middleware')
+const categoryModel = require('../../lib/db/models/category.model')
+const workerModel = require('../../lib/db/models/worker.model')
 
 router.all('', (req, res) => {
 	let concat = []
@@ -16,9 +22,18 @@ router.all('', (req, res) => {
 		`Activates a newly registered user.`,
 		`Registers a new user.`,
 		`Administrative management of users via IDs.`,
+		`Route for managing logins and session resumption for admins.`,
+		`Route for collecting all items or creating an item.`,
+		`Route for updating or deleting an item.`,
+		`Route for collecting all services or creating a service.`,
+		`Route for updating or deleting a service.`,
+		`Route for creating a contact of getting all contacts.`,
+		`Route for updating or soft deleting a contact.`,
+		`Get all item categories.`,
+		`Get all workers.`,
 	]
 	let body = {
-		name: 'BasicAPI v1',
+		name: 'Trinity Plumbing API v1',
 		version: '1.0.0',
 		routes: concat,
 		description: descriptions,
@@ -28,17 +43,77 @@ router.all('', (req, res) => {
 
 router
 	.route('/users')
-	.post(userController.signIn)
-	.get(userController.session)
-	.patch(userController.updateUser)
-	.delete(userController.destroyUser)
-router.route('/users/register/:id').get(userController.verifyUser)
-router.route('/users/register').post(userController.signUp)
+	.post(usersController.signIn)
+	.all(typeCheck(['user']))
+	.get(usersController.session)
+	.patch(usersController.updateUser)
+	.delete(usersController.destroyUser)
+router.route('/users/register/:id').get(usersController.verifyUser)
+router.route('/users/register').post(usersController.signUp)
 router
 	.route('/users/:id')
 	.all(typeCheck(['admin']))
-	.get(userController.getAny)
-	.patch(userController.updateUserAny)
-	.delete(userController.destroyUserAny)
+	.get(usersController.getAny)
+	.patch(usersController.updateUserAny)
+	.delete(usersController.destroyUserAny)
+
+router
+	.route('/admins')
+	.all(typeCheck(['admin']))
+	.post(adminsController.signIn)
+	.get(adminsController.session)
+
+router
+	.route('/items')
+	.get(itemsController.get)
+	.all(typeCheck(['admin']))
+	.post(itemsController.add)
+router
+	.route('/items/:id')
+	.all(typeCheck(['admin']))
+	.patch(itemsController.update)
+	.delete(itemsController.destroy)
+
+router
+	.route('/services')
+	.get(servicesController.get)
+	.all(typeCheck(['admin']))
+	.post(servicesController.add)
+router
+	.route('/services/:id')
+	.all(typeCheck(['admin']))
+	.patch(servicesController.update)
+	.delete(servicesController.destroy)
+
+router
+	.route('/contacts')
+	.post(contactsController.add)
+	.all(typeCheck(['admin']))
+	.get(contactsController.get)
+router
+	.route('/contacts/:id')
+	.all(typeCheck(['admin']))
+	.patch(contactsController.correspondence)
+	.delete(contactsController.delete)
+
+router.route('/categories').get(async (req, res) => {
+	const list = await categoryModel.find().catch((err) => {
+		JSONResponse.error(req, res, 500, 'Database Error', err)
+	})
+	if (list.length > 0)
+		JSONResponse.success(req, res, 200, 'Collected matching documents', list)
+	else
+		JSONResponse.error(req, res, 404, 'Could not find any matching documents')
+})
+
+router.route('/workers').get(typeCheck(['admin']), async (req, res) => {
+	const list = await workerModel.find().catch((err) => {
+		JSONResponse.error(req, res, 500, 'Database Error', err)
+	})
+	if (list.length > 0)
+		JSONResponse.success(req, res, 200, 'Collected matching documents', list)
+	else
+		JSONResponse.error(req, res, 404, 'Could not find any matching documents')
+})
 
 module.exports = router

@@ -9,10 +9,9 @@ const APP_NAME = NAME || 'Express API'
 
 // Establish API
 app.all('', (req, res) => {
-	res.json({
-		name: APP_NAME,
-		versions: ['v1'],
-		'I.P': req.socket.remoteAddress,
+	res.render('verify', {
+		Title: APP_NAME,
+		Details: '>> https://trinity-plumbing.web.app <<',
 	})
 })
 
@@ -28,7 +27,7 @@ app.use(
 	cors({
 		origin: CORS,
 		credentials: true,
-	})	
+	})
 )
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -44,7 +43,7 @@ app.use('/api/v1', API_V1)
 // Start express app
 if (!PRODUCTION)
 	app.listen(PORT, () => {
-		console.log(`\n\tServer listening on ${DOMAIN}\n`)
+		console.log(`\n\tServer listening on ${DOMAIN}:${PORT}\n`)
 	})
 else {
 	const _app = app.listen(PORT, require('os').hostname(), () => {
