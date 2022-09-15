@@ -8,7 +8,7 @@ const workersController = require('./controllers/workers.controller')
 const typeCheck = require('./middleware/typeCheck.middleware')
 const categoryModel = require('../../lib/db/models/category.model')
 
-router.all('', (req, res) => {
+router.get('', (req, res) => {
 	let concat = []
 	for (let layer of router.stack) {
 		concat.push({
@@ -18,6 +18,7 @@ router.all('', (req, res) => {
 	}
 	const descriptions = [
 		`API DOCS URL`,
+		`Server-up check.`,
 		`Route for managing logins, session resumptions, user profile updates and deleting profile.`,
 		`Activates a newly registered user.`,
 		`Registers a new user.`,
@@ -41,6 +42,14 @@ router.all('', (req, res) => {
 		description: descriptions,
 	}
 	res.render('summary', body)
+})
+
+router.all('', (req, res) => {
+	let body = {
+		name: 'Trinity Plumbing API',
+		version: '1.2.8',
+	}
+	res.json(body)
 })
 
 router
