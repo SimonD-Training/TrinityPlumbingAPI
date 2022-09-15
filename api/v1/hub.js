@@ -27,6 +27,8 @@ router.all('', (req, res) => {
 		`Route for updating or deleting an item.`,
 		`Route for collecting all services or creating a service.`,
 		`Route for updating or deleting a service.`,
+		`Route for collecting all workers or creating a worker.`,
+		`Route for updating or deleting a worker.`,
 		`Route for creating a contact of getting all contacts.`,
 		`Route for updating or soft deleting a contact.`,
 		`Get all item categories.`,
