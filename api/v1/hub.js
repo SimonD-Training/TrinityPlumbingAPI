@@ -73,8 +73,8 @@ router
 
 router
 	.route('/admins')
-	.all(typeCheck(['admin']))
 	.post(adminsController.signIn)
+	.all(typeCheck(['admin']))
 	.get(adminsController.session)
 	.delete(logout)
 

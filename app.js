@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const app = express()
 const API_V1 = require('./api/v1/hub.js')
-const { NAME, CORS, SESSION_SECRET, DOMAIN, PORT, PRODUCTION } = process.env
+const { NAME, CORS, SERVER_SECRET, DOMAIN, PORT, PRODUCTION } = process.env
 const APP_NAME = NAME || 'Express API'
 
 // Establish API
@@ -31,7 +31,7 @@ app.use(
 )
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cookieParser(SESSION_SECRET))
+app.use(cookieParser(SERVER_SECRET))
 
 // View Engine
 app.set('views', 'templates')
