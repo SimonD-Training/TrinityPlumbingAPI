@@ -7,6 +7,7 @@ const adminsController = require('./controllers/admins.controller')
 const contactsController = require('./controllers/contacts.controller')
 const workersController = require('./controllers/workers.controller')
 const typeCheck = require('./middleware/typeCheck.middleware')
+const categoriesController = require('./controllers/categories.controller')
 
 router.get('', (req, res) => {
 	let concat = []
@@ -87,6 +88,17 @@ router
 	.all(typeCheck(['admin']))
 	.patch(itemsController.update)
 	.delete(itemsController.destroy)
+
+router
+	.route('/categories')
+	.get(categoriesController.get)
+	.all(typeCheck(['admin']))
+	.post(categoriesController.add)
+router
+	.route('/categories/:id')
+	.all(typeCheck(['admin']))
+	.patch(categoriesController.update)
+	.delete(categoriesController.destroy)
 
 router
 	.route('/services')

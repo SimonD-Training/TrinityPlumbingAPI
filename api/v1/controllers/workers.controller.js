@@ -1,7 +1,7 @@
 const workerModel = require('../../../lib/db/models/worker.model')
 const JSONResponse = require('../../../lib/json.helper')
 
-class controller {
+class workersController {
 	//Read
 	static async get(req, res) {
 		const list = await workerModel.find().catch((err) => {
@@ -98,4 +98,4 @@ class controller {
 	}
 }
 
-module.exports = controller
+module.exports = workersController

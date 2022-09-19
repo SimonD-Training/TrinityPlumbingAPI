@@ -3,7 +3,7 @@ const JSONResponse = require('../../../lib/json.helper')
 const JWTHelper = require('../../../lib/jwt.helper')
 const S3Helper = require('../../../lib/s3.helper')
 
-class controller {
+class usersController {
 	static getAny(req, res) {
 		const body = JSON.parse(req.params.obj)
 		userModel
@@ -212,4 +212,4 @@ class controller {
 		}
 	}
 }
-module.exports = controller
+module.exports = usersController

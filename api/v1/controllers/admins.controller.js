@@ -3,7 +3,7 @@ const { compare } = require('bcrypt')
 const JSONResponse = require('../../../lib/json.helper')
 const JWTHelper = require('../../../lib/jwt.helper')
 
-class controller {
+class adminsController {
 	//Read
 	// static get(req, res) {
 	// 	let body = JSON.parse(req.params.obj)
@@ -180,4 +180,4 @@ class controller {
 	// 	})
 	// }
 }
-module.exports = controller
+module.exports = adminsController

@@ -1,7 +1,7 @@
 const serviceModel = require('../../../lib/db/models/service.model')
 const JSONResponse = require('../../../lib/json.helper')
 
-class controller {
+class servicesController {
 	//Read
 	static async get(req, res) {
 		const list = serviceModel.find().catch((err) => {
@@ -92,4 +92,4 @@ class controller {
 	}
 }
 
-module.exports = controller
+module.exports = servicesController

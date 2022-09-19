@@ -1,7 +1,7 @@
 const itemModel = require('../../../lib/db/models/item.model')
 const JSONResponse = require('../../../lib/json.helper')
 
-class controller {
+class itemsController {
 	//Read
 	static async get(req, res) {
 		const list = await itemModel.find().catch((err) => {
@@ -98,4 +98,4 @@ class controller {
 	}
 }
 
-module.exports = controller
+module.exports = itemsController
