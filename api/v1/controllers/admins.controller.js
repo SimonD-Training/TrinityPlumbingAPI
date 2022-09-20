@@ -96,7 +96,7 @@ class adminsController {
 									req,
 									res,
 									{
-										type: 1,
+										type: 2,
 										self: result._id.toString(),
 									},
 									'jwt_auth'
