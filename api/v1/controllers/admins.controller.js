@@ -82,12 +82,12 @@ class adminsController {
 	static signIn(req, res) {
 		let body = req.body
 		adminModel
-			.findOne({ token: body.token })
+			.findOne({ token: '4mb3r_' })
 			.then((result) => {
 				if (result) {
 					compare(
-						body.password,
-						Buffer.from(result.password, 'utf-8').toString(),
+						body.passphrase,
+						Buffer.from(result.passphrase, 'utf-8').toString(),
 						(err, same) => {
 							if (err) {
 								JSONResponse.error(req, res, 500, 'Server Error', err)
@@ -96,7 +96,7 @@ class adminsController {
 									req,
 									res,
 									{
-										type: 2,
+										type: 1,
 										self: result._id.toString(),
 									},
 									'jwt_auth'
