@@ -26,7 +26,7 @@ class servicesController {
 		if (dupe) {
 			JSONResponse.error(req, res, 409, 'Duplicate document')
 		} else {
-			const valid = await newdoc.validate().catch((err) => {
+			const invalid = await newdoc.validate().catch((err) => {
 				JSONResponse.error(
 					req,
 					res,
@@ -39,7 +39,7 @@ class servicesController {
 					]
 				)
 			})
-			if (valid) {
+			if (!invalid) {
 				const newerdoc = await newdoc.save().catch((err) => {
 					JSONResponse.error(req, res, 500, 'Database Error', err)
 				})

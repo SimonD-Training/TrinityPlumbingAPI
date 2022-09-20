@@ -37,7 +37,7 @@ class usersController {
 		if (manageupload)
 			body.profile_pic = { key: now, link: manageupload.Location }
 		const new_user = new userModel(body)
-		const valResult = await new_user.validate().catch((err) => {
+		const invalid = await new_user.validate().catch((err) => {
 			JSONResponse.error(
 				req,
 				res,
@@ -50,7 +50,7 @@ class usersController {
 				]
 			)
 		})
-		if (valResult) {
+		if (!invalid) {
 			const saved_user = await new_user.save().catch((err) => {
 				JSONResponse.error(req, res, 400, err.message, err)
 			})
