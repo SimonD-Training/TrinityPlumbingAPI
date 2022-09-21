@@ -27,7 +27,6 @@ class itemsController {
 	//Create
 	static async add(req, res) {
 		let body = req.body
-		console.log(body)
 		let newdoc = new itemModel(body)
 		let dupe = await newdoc.checkDupe()
 		if (dupe) {
