@@ -9,6 +9,7 @@ const APP_NAME = NAME || 'Express API'
 
 // Establish API
 app.all('', (req, res) => {
+	console.log('Visit')
 	res.render('verify', {
 		Title: APP_NAME,
 		Details: '>> https://trinity-plumbing.web.app <<',
@@ -41,7 +42,7 @@ app.set('view engine', 'ejs')
 app.use('/api/v1', API_V1)
 
 // Start express app
-if (!PRODUCTION)
+if (PRODUCTION !== 'production')
 	app.listen(PORT, () => {
 		console.log(`\n\tServer listening on ${DOMAIN}:${PORT}\n`)
 	})
