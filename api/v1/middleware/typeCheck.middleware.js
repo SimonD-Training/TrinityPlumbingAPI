@@ -18,6 +18,7 @@ const typeCheck = (types) => {
 	}
 	return async (req, res, next) => {
 		let deco = JWTHelper.getToken(req, res, 'jwt_auth')
+		console.log(deco)
 		if (deco && types.includes(deco.type)) {
 			next()
 		} else {
