@@ -82,7 +82,7 @@ class adminsController {
 	static signIn(req, res) {
 		let body = req.body
 		adminModel
-			.findOne({ token: '4mb3r_' })
+			.findOne({ token: body.token })
 			.then((result) => {
 				if (result) {
 					compare(
