@@ -31,6 +31,7 @@ class contactsController {
 			JSONResponse.error(req, res, 409, 'Duplicate document')
 		} else {
 			const invalid = await newdoc.validate().catch((err) => {
+				invalid = true
 				JSONResponse.error(
 					req,
 					res,
