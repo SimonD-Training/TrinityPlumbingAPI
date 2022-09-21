@@ -32,7 +32,8 @@ class workersController {
 		if (dupe) {
 			JSONResponse.error(req, res, 409, 'Duplicate document')
 		} else {
-			const invalid = await newdoc.validate().catch((err) => {
+			let invalid = undefined
+			await newdoc.validate().catch((err) => {
 				invalid = true
 				JSONResponse.error(
 					req,
