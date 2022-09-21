@@ -4,7 +4,7 @@ const JSONResponse = require('../../../lib/json.helper')
 class servicesController {
 	//Read
 	static async get(req, res) {
-		const list = serviceModel.find().catch((err) => {
+		const list = await serviceModel.find().catch((err) => {
 			JSONResponse.error(req, res, 500, 'Database Error', err)
 		})
 		if (list.length > 0)

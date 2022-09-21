@@ -6,7 +6,7 @@ const JWTHelper = require('../../../lib/jwt.helper')
 class contactsController {
 	//Read
 	static async get(req, res) {
-		const list = contactModel.find().catch((err) => {
+		const list = await contactModel.find().catch((err) => {
 			JSONResponse.error(req, res, 500, 'Database Error', err)
 		})
 		if (list.length > 0)
