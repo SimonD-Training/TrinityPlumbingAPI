@@ -41,7 +41,6 @@ class servicesController {
 					]
 				)
 			})
-			console.log(invalid)
 			if (!invalid) {
 				const newerdoc = await newdoc.save().catch((err) => {
 					JSONResponse.error(req, res, 500, 'Database Error', err)
